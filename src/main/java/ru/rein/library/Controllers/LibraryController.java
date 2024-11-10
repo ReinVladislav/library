@@ -24,14 +24,14 @@ public class LibraryController {
     }
 
     @GetMapping("/reader/most-reading")
-    @Operation(summary = "POST /reader/most-reading",
+    @Operation(summary = "GET /reader/most-reading",
             description = "Показывает читателя, который взял больше всего книг")
     public ReaderDto getTheMostReadingReader(){
        return transactionService.getTheMostReadingReader();
     }
 
     @GetMapping("/reader/list")
-    @Operation(summary = "POST /reader/list",
+    @Operation(summary = "GET /reader/list",
             description = "Показывает список читателей отсортированный(по убыванию) по кол-ву несданных книг")
     public ArrayList<ReaderDto> getListReaderSortByUndeliveredBook(){
         return transactionService.getListReaderSortByUndeliveredBook();
