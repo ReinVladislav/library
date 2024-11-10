@@ -1,0 +1,39 @@
+networks:
+  dev:
+    name: dev
+
+
+services:
+
+  db:
+    image: postgres:16
+    container_name: postgres-db
+    environment:
+      - POSTGRES_DB=libraryDb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1212
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d
+    networks:
+      - dev
+
+  backend:
+    build:
+      context: .
+    depends_on:
+      - db
+
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/libraryDb
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=1212
+      - SPRING_JPA_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+    networks:
+      - dev
+    ports:
+      - "8080:8080"
+
+
+volumes:
+  postgres_data:
